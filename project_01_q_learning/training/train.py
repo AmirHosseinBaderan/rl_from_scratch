@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from project_01_q_learning.agent import QLearningAgent
 from project_01_q_learning.environment import GridWorld
 from project_01_q_learning.training import (
@@ -7,6 +5,7 @@ from project_01_q_learning.training import (
     TrainingConfig,
     TensorBoardLogger
 )
+from project_01_q_learning.utils.logger import logger
 
 
 class Trainer:
@@ -16,14 +15,14 @@ class Trainer:
             agent: QLearningAgent,
             config: TrainingConfig,
             checkpoint_manager: CheckpointManager,
-            logger: TensorBoardLogger,
+            tensor_logger: TensorBoardLogger,
     ):
         self.env = env
         self.agent = agent
         self.config = config
 
         self.checkpoint_manager = checkpoint_manager
-        self.logger = logger
+        self.tensor_logger = tensor_logger
 
         self.start_episode = 1
         self.best_reward = float("-inf")
@@ -73,7 +72,7 @@ class Trainer:
 
             self.agent.decay_epsilon()
 
-            self.logger.log_episode(
+            self.tensor_logger.log_episode(
                 episode=episode,
                 reward=total_reward,
                 length=episode_length,
@@ -106,12 +105,10 @@ class Trainer:
                     % self.config.log_interval
                     == 0
             ):
-                print(
-                    f"Episode {episode:5d} | "
-                    f"Reward: {total_reward:7.2f} | "
-                    f"Length: {episode_length:3d} | "
-                    f"Epsilon: {self.agent.epsilon:.4f} | "
-                    f"Success Rate: {success_rate:.2%}"
-                )
+                logger.info(f"Episode {episode:5d} | ")
+                logger.info(f"Reward: {total_reward:7.2f} | ")
+                logger.info(f"Length: {episode_length:3d} | ")
+                logger.info(f"Epsilon: {self.agent.epsilon:.4f} | ")
+                logger.info(f"Success Rate: {success_rate:.2%}")
 
-        self.logger.close()
+        self.tensor_logger.close()
