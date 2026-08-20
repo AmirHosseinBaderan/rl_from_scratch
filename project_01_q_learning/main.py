@@ -15,9 +15,6 @@ from visualization import GridWorldVisualizer
 
 
 def create_environment():
-    rows = 5
-    cols = 5
-
     obstacles = {
         (0, 3),
         (1, 1),
@@ -26,22 +23,18 @@ def create_environment():
         (3, 0),
     }
 
-    grid_input = GridInput(
-        rows=rows,
-        cols=cols,
-    )
-
-    start, goal = grid_input.get_start_and_goal(
-        obstacles
-    )
-
     config = GridWorldConfig(
-        rows=rows,
-        cols=cols,
-        start=start,
-        goal=goal,
+        rows=5,
+        cols=5,
         obstacles=frozenset(obstacles),
-        max_steps=100
+    )
+
+    grid_input = GridInput(
+        config=config,
+    )
+
+    config = grid_input.get_start_and_goal(
+        config.obstacles,
     )
 
     return GridWorld(config)

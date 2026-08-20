@@ -1,6 +1,6 @@
 from enum import IntEnum
 
-from environment import GridWorldConfig
+from .config import GridWorldConfig
 
 
 class Action(IntEnum):

@@ -1,5 +1,5 @@
 from agent import QLearningAgent
-from environment import GridWorld, Action
+from environment import GridWorld, GridWorldConfig, Action
 from evaluation.evaluate import Evaluator
 
 
@@ -12,12 +12,16 @@ def test_evaluation_reaches_goal():
         (3, 0),
     }
 
-    env = GridWorld(
+    config = GridWorldConfig(
         rows=5,
         cols=5,
         start=(0, 0),
         goal=(4, 4),
-        obstacles=obstacles,
+        obstacles=frozenset(obstacles),
+    )
+
+    env = GridWorld(
+        config=config,
     )
 
     agent = QLearningAgent(

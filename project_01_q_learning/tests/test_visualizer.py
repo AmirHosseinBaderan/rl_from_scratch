@@ -2,9 +2,9 @@ import matplotlib
 
 matplotlib.use("Agg")
 
-from environment import GridWorld
-from evaluation.evaluate import EvaluationResult
-from visualization.visualize import GridWorldVisualizer
+from environment import GridWorld, GridWorldConfig
+from evaluation import EvaluationResult
+from visualization import GridWorldVisualizer
 
 
 def test_plot_path():
@@ -12,12 +12,16 @@ def test_plot_path():
         (1, 1),
     }
 
-    env = GridWorld(
+    config = GridWorldConfig(
         rows=3,
         cols=3,
         start=(0, 0),
         goal=(2, 2),
-        obstacles=obstacles,
+        obstacles=frozenset(obstacles),
+    )
+
+    env = GridWorld(
+        config=config,
     )
 
     result = EvaluationResult(
