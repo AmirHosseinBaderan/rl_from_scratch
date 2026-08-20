@@ -1,11 +1,11 @@
-from project_01_q_learning.agent import QLearningAgent
-from project_01_q_learning.environment import GridWorld
-from project_01_q_learning.training import (
+from agent import QLearningAgent
+from environment import GridWorld
+from training import (
     CheckpointManager,
     TrainingConfig,
     TensorBoardLogger
 )
-from project_01_q_learning.utils.logger import logger
+from utils.logger import logger
 
 
 class Trainer:
