@@ -1,7 +1,7 @@
 import random
 import numpy as np
 
-from ..environment import Action
+from project_01_q_learning.environment import Action
 
 
 class QLearningAgent:
