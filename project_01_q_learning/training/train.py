@@ -105,10 +105,12 @@ class Trainer:
                     % self.config.log_interval
                     == 0
             ):
-                logger.info(f"Episode {episode:5d} | ")
-                logger.info(f"Reward: {total_reward:7.2f} | ")
-                logger.info(f"Length: {episode_length:3d} | ")
-                logger.info(f"Epsilon: {self.agent.epsilon:.4f} | ")
-                logger.info(f"Success Rate: {success_rate:.2%}")
+                logger.info(
+                    f"Episode {episode:5d} | "
+                    f"Reward: {total_reward:7.2f} | "
+                    f"Length: {episode_length:3d} | "
+                    f"Epsilon: {self.agent.epsilon:.4f} | "
+                    f"Success Rate: {success_rate:.2%}"
+                )
 
         self.tensor_logger.close()
