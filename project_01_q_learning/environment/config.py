@@ -5,7 +5,7 @@ from dataclasses import dataclass
 class GridWorldConfig:
     rows: int
     cols: int
-    start: tuple[int, int]
-    goal: tuple[int, int]
-    obstacles: frozenset[tuple[int, int]]
-    max_steps: int
+    start: tuple[int, int] = (0, 0)
+    goal: tuple[int, int] = (0, 0)
+    obstacles: frozenset[tuple[int, int]] = frozenset()
+    max_steps: int = 100
