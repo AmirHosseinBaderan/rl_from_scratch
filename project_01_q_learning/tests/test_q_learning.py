@@ -1,5 +1,5 @@
-from project_01_q_learning.environment import Action
-from project_01_q_learning.agent import QLearningAgent
+from environment import Action
+from agent import QLearningAgent
 
 import numpy as np
 

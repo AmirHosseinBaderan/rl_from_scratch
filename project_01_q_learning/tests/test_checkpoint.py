@@ -1,8 +1,8 @@
 import numpy as np
 
-from project_01_q_learning.agent import QLearningAgent
-from project_01_q_learning.training import CheckpointManager
-from project_01_q_learning.environment import Action
+from agent import QLearningAgent
+from training import CheckpointManager
+from environment import Action
 
 def test_save_and_load():
     agent = QLearningAgent(

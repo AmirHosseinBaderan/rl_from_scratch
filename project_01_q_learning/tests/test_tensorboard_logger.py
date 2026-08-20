@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from project_01_q_learning.training import TensorBoardLogger
+from training import TensorBoardLogger
 
 
 def test_tensorboard_logger():
