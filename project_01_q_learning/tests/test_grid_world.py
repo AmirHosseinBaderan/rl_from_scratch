@@ -1,6 +1,5 @@
 from environment import GridWorld, Action
 
-
 def create_environment():
     obstacles = {
         (0, 3),
