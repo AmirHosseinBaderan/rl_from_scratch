@@ -3,10 +3,8 @@ from pathlib import Path
 
 from agent import QLearningAgent
 from environment import GridWorld, GridWorldConfig
-
 from evaluation.evaluate import Evaluator
-from input.grid_input import GridInput
-
+from input import GridInput
 from training.checkpoint import CheckpointManager
 from training.config import TrainingConfig
 from training.tensorboard_logger import TensorBoardLogger
@@ -14,36 +12,46 @@ from training.train import Trainer
 from visualization import GridWorldVisualizer
 
 
-def create_environment():
-    obstacles = {
-        (0, 3),
-        (1, 1),
-        (1, 3),
-        (2, 3),
-        (3, 0),
-    }
+ROWS = 5
+COLS = 5
+
+OBSTACLES = frozenset({
+    (0, 3),
+    (1, 1),
+    (1, 3),
+    (2, 3),
+    (3, 0),
+})
+
+CHECKPOINT_DIR = Path("checkpoints/q_learning")
+TENSORBOARD_DIR = Path("runs/q_learning")
+
+
+def create_environment() -> GridWorld:
+    grid_input = GridInput(
+        rows=ROWS,
+        cols=COLS,
+    )
+
+    start, goal = grid_input.get_start_and_goal(
+        obstacles=OBSTACLES,
+    )
 
     config = GridWorldConfig(
-        rows=5,
-        cols=5,
-        obstacles=frozenset(obstacles),
-    )
-
-    grid_input = GridInput(
-        config=config,
-    )
-
-    config = grid_input.get_start_and_goal(
-        config.obstacles,
+        rows=ROWS,
+        cols=COLS,
+        start=start,
+        goal=goal,
+        obstacles=OBSTACLES,
     )
 
     return GridWorld(config)
 
 
-def create_agent():
+def create_agent() -> QLearningAgent:
     return QLearningAgent(
-        rows=5,
-        cols=5,
+        rows=ROWS,
+        cols=COLS,
         learning_rate=0.1,
         discount_factor=0.99,
         epsilon=1.0,
@@ -52,7 +60,7 @@ def create_agent():
     )
 
 
-def train():
+def train() -> None:
     env = create_environment()
     agent = create_agent()
 
@@ -63,11 +71,11 @@ def train():
     )
 
     checkpoint_manager = CheckpointManager(
-        Path("checkpoints/q_learning")
+        CHECKPOINT_DIR
     )
 
     tensor_logger = TensorBoardLogger(
-        Path("runs/q_learning")
+        TENSORBOARD_DIR
     )
 
     trainer = Trainer(
@@ -81,16 +89,19 @@ def train():
     trainer.train()
 
 
-def evaluate():
-    env = create_environment()
+def evaluate() -> None:
     agent = create_agent()
 
     checkpoint_manager = CheckpointManager(
-        Path("checkpoints/q_learning")
+        CHECKPOINT_DIR
     )
 
     checkpoint = checkpoint_manager.load_best(
         agent
+    )
+
+    env = GridWorld(
+        checkpoint["config"]
     )
 
     evaluator = Evaluator(
@@ -105,11 +116,40 @@ def evaluate():
     print("Evaluation")
     print("=" * 50)
 
-    print(f"Checkpoint Episode: {checkpoint['episode']}")
-    print(f"Best Reward: {checkpoint['best_reward']:.2f}")
-    print(f"Success: {result.success}")
-    print(f"Steps: {result.steps}")
-    print(f"Total Reward: {result.total_reward:.2f}")
+    print(
+        f"Checkpoint Episode: "
+        f"{checkpoint['episode']}"
+    )
+
+    print(
+        f"Best Reward: "
+        f"{checkpoint['best_reward']:.2f}"
+    )
+
+    print(
+        f"Start: "
+        f"{env.start}"
+    )
+
+    print(
+        f"Goal: "
+        f"{env.goal}"
+    )
+
+    print(
+        f"Success: "
+        f"{result.success}"
+    )
+
+    print(
+        f"Steps: "
+        f"{result.steps}"
+    )
+
+    print(
+        f"Total Reward: "
+        f"{result.total_reward:.2f}"
+    )
 
     print()
     print("Learned Path:")
@@ -128,15 +168,21 @@ def evaluate():
         print("GOAL NOT REACHED ❌")
 
     visualizer = GridWorldVisualizer(env)
+
     visualizer.plot_path(result)
 
 
-def main():
-    parser = argparse.ArgumentParser()
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Q-Learning Grid World"
+    )
 
     parser.add_argument(
         "command",
-        choices=["train", "evaluate"],
+        choices=[
+            "train",
+            "evaluate",
+        ],
     )
 
     args = parser.parse_args()

@@ -15,6 +15,7 @@ class GridWorld:
             self,
             config: GridWorldConfig,
     ):
+        self.config = config
         self.rows = config.rows
         self.cols = config.cols
 

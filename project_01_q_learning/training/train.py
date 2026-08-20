@@ -85,6 +85,7 @@ class Trainer:
 
                 self.checkpoint_manager.save_best(
                     agent=self.agent,
+                    config=self.env.config,
                     episode=episode,
                     best_reward=self.best_reward,
                 )
@@ -96,6 +97,7 @@ class Trainer:
             ):
                 self.checkpoint_manager.save_latest(
                     agent=self.agent,
+                    config=self.env.config,
                     episode=episode,
                     best_reward=self.best_reward,
                 )

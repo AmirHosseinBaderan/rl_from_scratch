@@ -1,12 +1,11 @@
-from environment import GridWorldConfig
-
-
 class GridInput:
     def __init__(
         self,
-        config: GridWorldConfig,
+        rows: int,
+        cols: int,
     ):
-        self.config = config
+        self.rows = rows
+        self.cols = cols
 
     def get_position(
         self,
@@ -30,8 +29,10 @@ class GridInput:
                 ):
                     print(
                         f"Invalid position. "
-                        f"Row: 0-{self.config.rows - 1}, "
-                        f"Col: 0-{self.config.cols - 1}"
+                        f"Row must be between "
+                        f"0 and {self.rows - 1}, "
+                        f"col must be between "
+                        f"0 and {self.cols - 1}."
                     )
                     continue
 
@@ -40,21 +41,31 @@ class GridInput:
             except ValueError:
                 print(
                     "Invalid input. "
-                    "Use: row col"
+                    "Use the format: row col"
                 )
 
     def get_start_and_goal(
         self,
-        obstacles: set[tuple[int, int]],
-    ) -> GridWorldConfig:
+        obstacles: set[tuple[int, int]]
+        | frozenset[tuple[int, int]],
+    ) -> tuple[
+        tuple[int, int],
+        tuple[int, int],
+    ]:
 
         while True:
-            start = self.get_position("start")
-            goal = self.get_position("goal")
+            start = self.get_position(
+                "start"
+            )
+
+            goal = self.get_position(
+                "goal"
+            )
 
             if start == goal:
                 print(
-                    "Start and goal cannot be the same."
+                    "Start and goal "
+                    "cannot be the same."
                 )
                 continue
 
@@ -72,14 +83,7 @@ class GridInput:
                 )
                 continue
 
-            return GridWorldConfig(
-                rows=self.config.rows,
-                cols=self.config.cols,
-                start=start,
-                goal=goal,
-                obstacles=frozenset(obstacles),
-                max_steps=self.config.max_steps,
-            )
+            return start, goal
 
     def _is_valid_position(
         self,
@@ -87,7 +91,7 @@ class GridInput:
         col: int,
     ) -> bool:
         return (
-            0 <= row < self.config.rows
+            0 <= row < self.rows
             and
-            0 <= col < self.config.cols
+            0 <= col < self.cols
         )
