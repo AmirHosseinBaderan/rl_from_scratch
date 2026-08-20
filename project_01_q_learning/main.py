@@ -10,7 +10,7 @@ from training.checkpoint import CheckpointManager
 from training.config import TrainingConfig
 from training.tensorboard_logger import TensorBoardLogger
 from training.train import Trainer
-
+from visualization import GridWorldVisualizer
 
 def create_environment():
     obstacles = {
@@ -116,6 +116,9 @@ def evaluate():
         print("GOAL REACHED 🎯")
     else:
         print("GOAL NOT REACHED ❌")
+
+    visualizer = GridWorldVisualizer(env)
+    visualizer.plot_path(result)
 
 
 def main():
