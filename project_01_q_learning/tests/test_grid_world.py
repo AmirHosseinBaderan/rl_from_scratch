@@ -1,4 +1,4 @@
-from ..environment import GridWorld, Action
+from project_01_q_learning.environment import GridWorld, Action
 
 def create_environment():
     obstacles = {

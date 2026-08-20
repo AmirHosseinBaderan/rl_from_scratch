@@ -2,7 +2,7 @@ from pathlib import Path
 
 import numpy as np
 
-from ..agent import QLearningAgent
+from project_01_q_learning.agent import QLearningAgent
 
 
 class CheckpointManager:
