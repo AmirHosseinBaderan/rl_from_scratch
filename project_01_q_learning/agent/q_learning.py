@@ -88,3 +88,12 @@ class QLearningAgent:
             self.epsilon_min,
             self.epsilon * self.epsilon_decay
         )
+
+    def get_greedy_action(self, state):
+        row, col = state
+
+        return Action(
+            np.argmax(
+                self.q_table[row, col]
+            )
+        )
