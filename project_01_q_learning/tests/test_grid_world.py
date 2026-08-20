@@ -1,4 +1,5 @@
-from environment import GridWorld, Action
+from environment import GridWorld, Action, GridWorldConfig
+
 
 def create_environment():
     obstacles = {
@@ -9,12 +10,17 @@ def create_environment():
         (3, 0),
     }
 
-    return GridWorld(
+    config = GridWorldConfig(
         rows=5,
         cols=5,
         start=(0, 0),
         goal=(4, 4),
-        obstacles=obstacles,
+        obstacles=frozenset(obstacles),
+        max_steps=100
+    )
+
+    return GridWorld(
+        config=config
     )
 
 

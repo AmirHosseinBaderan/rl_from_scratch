@@ -2,9 +2,10 @@ import argparse
 from pathlib import Path
 
 from agent import QLearningAgent
-from environment import GridWorld
+from environment import GridWorld, GridWorldConfig
 
 from evaluation.evaluate import Evaluator
+from input.grid_input import GridInput
 
 from training.checkpoint import CheckpointManager
 from training.config import TrainingConfig
@@ -12,7 +13,11 @@ from training.tensorboard_logger import TensorBoardLogger
 from training.train import Trainer
 from visualization import GridWorldVisualizer
 
+
 def create_environment():
+    rows = 5
+    cols = 5
+
     obstacles = {
         (0, 3),
         (1, 1),
@@ -21,13 +26,25 @@ def create_environment():
         (3, 0),
     }
 
-    return GridWorld(
-        rows=5,
-        cols=5,
-        start=(0, 0),
-        goal=(4, 4),
-        obstacles=obstacles,
+    grid_input = GridInput(
+        rows=rows,
+        cols=cols,
     )
+
+    start, goal = grid_input.get_start_and_goal(
+        obstacles
+    )
+
+    config = GridWorldConfig(
+        rows=rows,
+        cols=cols,
+        start=start,
+        goal=goal,
+        obstacles=frozenset(obstacles),
+        max_steps=100
+    )
+
+    return GridWorld(config)
 
 
 def create_agent():

@@ -1,5 +1,7 @@
 from enum import IntEnum
 
+from environment import GridWorldConfig
+
 
 class Action(IntEnum):
     UP = 0
@@ -10,23 +12,18 @@ class Action(IntEnum):
 
 class GridWorld:
     def __init__(
-        self,
-        rows=5,
-        cols=5,
-        start=(0, 0),
-        goal=(4, 4),
-        obstacles=None,
-        max_steps=100,
+            self,
+            config: GridWorldConfig,
     ):
-        self.rows = rows
-        self.cols = cols
+        self.rows = config.rows
+        self.cols = config.cols
 
-        self.start = start
-        self.goal = goal
+        self.start = config.start
+        self.goal = config.goal
 
-        self.obstacles = set(obstacles or [])
+        self.obstacles = set(config.obstacles or [])
 
-        self.max_steps = max_steps
+        self.max_steps = config.max_steps
 
         self.agent_position = self.start
         self.step_count = 0
@@ -83,8 +80,8 @@ class GridWorld:
         self.agent_position = next_position
 
         done = (
-            self.agent_position == self.goal
-            or self.step_count >= self.max_steps
+                self.agent_position == self.goal
+                or self.step_count >= self.max_steps
         )
 
         return self.agent_position, reward, done
@@ -125,6 +122,6 @@ class GridWorld:
         row, col = position
 
         return (
-            0 <= row < self.rows
-            and 0 <= col < self.cols
+                0 <= row < self.rows
+                and 0 <= col < self.cols
         )

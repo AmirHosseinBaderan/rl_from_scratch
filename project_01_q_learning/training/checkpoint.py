@@ -22,11 +22,11 @@ class CheckpointManager:
         return self.directory / "best.npz"
 
     def save(
-        self,
-        agent: QLearningAgent,
-        episode: int,
-        best_reward: float,
-        path: str | Path,
+            self,
+            agent: QLearningAgent,
+            episode: int,
+            best_reward: float,
+            path: str | Path,
     ):
         path = Path(path)
 
@@ -39,10 +39,10 @@ class CheckpointManager:
         )
 
     def save_latest(
-        self,
-        agent: QLearningAgent,
-        episode: int,
-        best_reward: float,
+            self,
+            agent: QLearningAgent,
+            episode: int,
+            best_reward: float,
     ):
         self.save(
             agent=agent,
@@ -52,10 +52,10 @@ class CheckpointManager:
         )
 
     def save_best(
-        self,
-        agent: QLearningAgent,
-        episode: int,
-        best_reward: float,
+            self,
+            agent: QLearningAgent,
+            episode: int,
+            best_reward: float,
     ):
         self.save(
             agent=agent,
@@ -65,9 +65,9 @@ class CheckpointManager:
         )
 
     def load(
-        self,
-        agent: QLearningAgent,
-        path: str | Path,
+            self,
+            agent: QLearningAgent,
+            path: str | Path,
     ) -> dict:
         path = Path(path)
 
@@ -87,8 +87,8 @@ class CheckpointManager:
         }
 
     def load_latest(
-        self,
-        agent: QLearningAgent,
+            self,
+            agent: QLearningAgent,
     ) -> dict:
         return self.load(
             agent=agent,
@@ -96,8 +96,8 @@ class CheckpointManager:
         )
 
     def load_best(
-        self,
-        agent: QLearningAgent,
+            self,
+            agent: QLearningAgent,
     ) -> dict:
         return self.load(
             agent=agent,
