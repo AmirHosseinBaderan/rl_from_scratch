@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8bb41578-b8c3-41cc-9c53-ac12f1a6b574" name="Changes" comment="" />
+    <list default="true" id="8bb41578-b8c3-41cc-9c53-ac12f1a6b574" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/project_01_q_learning/tests/test_tensorboard_logger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_01_q_learning/training/tensorboard_logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/training/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/training/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,7 +90,7 @@
       <option name="presentableId" value="Default" />
       <updated>1787224691272</updated>
       <workItem from="1787224693317" duration="5556000" />
-      <workItem from="1787232693734" duration="2288000" />
+      <workItem from="1787232693734" duration="3068000" />
     </task>
     <servers />
   </component>
