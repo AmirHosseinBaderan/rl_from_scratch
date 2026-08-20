@@ -1,8 +1,11 @@
-from ..training import TensorBoardLogger
+from pathlib import Path
+
+from project_01_q_learning.training import TensorBoardLogger
 
 
-def test_tensorboard_logger(tmp_path):
-    logger = TensorBoardLogger(tmp_path)
+def test_tensorboard_logger():
+    logdir = Path("./logs")
+    logger = TensorBoardLogger(logdir)
 
     logger.log_episode(
         episode=1,
@@ -14,6 +17,6 @@ def test_tensorboard_logger(tmp_path):
 
     logger.close()
 
-    event_files = list(tmp_path.iterdir())
+    event_files = list(logdir.iterdir())
 
     assert len(event_files) > 0
