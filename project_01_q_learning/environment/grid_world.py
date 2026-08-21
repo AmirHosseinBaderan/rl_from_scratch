@@ -33,7 +33,10 @@ class GridWorld:
         self.agent_position = self.start
         self.step_count = 0
 
-        return self.agent_position
+        row, col = self.agent_position
+        goal_row, goal_col = self.goal
+
+        return (row, col, goal_row, goal_col)
 
     def step(self, action):
         self.step_count += 1
@@ -85,7 +88,10 @@ class GridWorld:
                 or self.step_count >= self.max_steps
         )
 
-        return self.agent_position, reward, done
+        row, col = self.agent_position
+        goal_row, goal_col = self.goal
+
+        return (row, col, goal_row, goal_col), reward, done
 
     def get_valid_actions(self):
         valid_actions = []
