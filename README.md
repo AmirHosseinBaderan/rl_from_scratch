@@ -4,7 +4,7 @@ A collection of reinforcement learning projects implemented from scratch.
 
 ## Projects
 
-### [Project 01: Q-Learning Grid World](./project_01_q_learning.md)
+### [Project 01: Q-Learning Grid World](project_01_q_learning/project_01_q_learning.md)
 
 A complete implementation of the Q-Learning algorithm on a custom Grid World environment.
 
@@ -32,4 +32,4 @@ python main.py evaluate
 tensorboard --logdir runs/q_learning
 ```
 
-For detailed documentation, see [project_01_q_learning.md](./project_01_q_learning.md).
+For detailed documentation, see [project_01_q_learning.md](project_01_q_learning/project_01_q_learning.md).

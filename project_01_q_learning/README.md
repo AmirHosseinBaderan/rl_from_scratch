@@ -267,7 +267,7 @@ project_01_q_learning/
 
 ### Grid World Config
 
-Defined in [`environment/config.py`](project_01_q_learning/environment/config.py):
+Defined in [`environment/config.py`](environment/config.py):
 
 ```python
 @dataclass(frozen=True)
@@ -282,7 +282,7 @@ class GridWorldConfig:
 
 ### Actions
 
-Defined in [`environment/grid_world.py`](project_01_q_learning/environment/grid_world.py) as an `IntEnum`:
+Defined in [`environment/grid_world.py`](environment/grid_world.py) as an `IntEnum`:
 
 | Action | Value | Description |
 |--------|-------|-------------|
@@ -299,7 +299,7 @@ This is a key design choice — the agent's current position AND the goal positi
 
 ### Environment Dynamics
 
-The [`GridWorld`](project_01_q_learning/environment/grid_world.py) class implements a standard RL environment interface:
+The [`GridWorld`](environment/grid_world.py) class implements a standard RL environment interface:
 
 - **`reset()`**: Resets the agent to the start position, returns initial state
 - **`step(action)`**: Takes an action, returns `(next_state, reward, done)`
@@ -318,7 +318,7 @@ The [`GridWorld`](project_01_q_learning/environment/grid_world.py) class impleme
 
 ### Q-Learning Agent
 
-Defined in [`agent/q_learning.py`](project_01_q_learning/agent/q_learning.py):
+Defined in [`agent/q_learning.py`](agent/q_learning.py):
 
 ```python
 class QLearningAgent:
@@ -407,7 +407,7 @@ def get_greedy_action(self, state):
 
 ### Training Config
 
-Defined in [`training/config.py`](project_01_q_learning/training/config.py):
+Defined in [`training/config.py`](training/config.py):
 
 ```python
 @dataclass
@@ -419,7 +419,7 @@ class TrainingConfig:
 
 ### Trainer
 
-The [`Trainer`](project_01_q_learning/training/train.py) orchestrates the training loop:
+The [`Trainer`](training/train.py) orchestrates the training loop:
 
 ```python
 class Trainer:
@@ -454,7 +454,7 @@ For each episode:
 
 ### Checkpointing
 
-The [`CheckpointManager`](project_01_q_learning/training/checkpoint.py) saves and loads Q-tables using NumPy's `.npz` format:
+The [`CheckpointManager`](training/checkpoint.py) saves and loads Q-tables using NumPy's `.npz` format:
 
 **Saved data:**
 - `q_table`: The learned Q-table
@@ -471,7 +471,7 @@ The [`CheckpointManager`](project_01_q_learning/training/checkpoint.py) saves an
 
 ### TensorBoard Logging
 
-The [`TensorBoardLogger`](project_01_q_learning/training/tensorboard_logger.py) logs the following scalars:
+The [`TensorBoardLogger`](training/tensorboard_logger.py) logs the following scalars:
 
 | Tag | Description |
 |-----|-------------|
@@ -489,7 +489,7 @@ tensorboard --logdir runs/q_learning
 
 ## Evaluation
 
-The [`Evaluator`](project_01_q_learning/evaluation/evaluate.py) tests the learned policy:
+The [`Evaluator`](evaluation/evaluate.py) tests the learned policy:
 
 ```python
 class Evaluator:
@@ -537,7 +537,7 @@ class EvaluationResult:
 
 ## Visualization
 
-The [`GridWorldVisualizer`](project_01_q_learning/visualization/visualize.py) creates a matplotlib plot showing:
+The [`GridWorldVisualizer`](visualization/visualize.py) creates a matplotlib plot showing:
 
 - Grid lines
 - Obstacles (gray squares)
@@ -570,30 +570,30 @@ class GridWorldVisualizer:
 
 | File | Purpose |
 |------|---------|
-| [`main.py`](project_01_q_learning/main.py) | Entry point, CLI argument parsing, orchestration |
-| [`agent/q_learning.py`](project_01_q_learning/agent/q_learning.py) | Q-Learning agent with Q-table and update logic |
-| [`environment/grid_world.py`](project_01_q_learning/environment/grid_world.py) | Grid world environment with actions and dynamics |
-| [`environment/config.py`](project_01_q_learning/environment/config.py) | Configuration dataclass for grid world |
-| [`training/train.py`](project_01_q_learning/training/train.py) | Training loop implementation |
-| [`training/checkpoint.py`](project_01_q_learning/training/checkpoint.py) | Save/load Q-tables to/from disk |
-| [`training/config.py`](project_01_q_learning/training/config.py) | Training hyperparameters |
-| [`training/tensorboard_logger.py`](project_01_q_learning/training/tensorboard_logger.py) | TensorBoard integration |
-| [`evaluation/evaluate.py`](project_01_q_learning/evaluation/evaluate.py) | Policy evaluation without exploration |
-| [`visualization/visualize.py`](project_01_q_learning/visualization/visualize.py) | Matplotlib path visualization |
-| [`input/grid_input.py`](project_01_q_learning/input/grid_input.py) | Interactive user input for start/goal |
-| [`utils/logger.py`](project_01_q_learning/utils/logger.py) | Logging configuration |
+| [`main.py`](main.py) | Entry point, CLI argument parsing, orchestration |
+| [`agent/q_learning.py`](agent/q_learning.py) | Q-Learning agent with Q-table and update logic |
+| [`environment/grid_world.py`](environment/grid_world.py) | Grid world environment with actions and dynamics |
+| [`environment/config.py`](environment/config.py) | Configuration dataclass for grid world |
+| [`training/train.py`](training/train.py) | Training loop implementation |
+| [`training/checkpoint.py`](training/checkpoint.py) | Save/load Q-tables to/from disk |
+| [`training/config.py`](training/config.py) | Training hyperparameters |
+| [`training/tensorboard_logger.py`](training/tensorboard_logger.py) | TensorBoard integration |
+| [`evaluation/evaluate.py`](evaluation/evaluate.py) | Policy evaluation without exploration |
+| [`visualization/visualize.py`](visualization/visualize.py) | Matplotlib path visualization |
+| [`input/grid_input.py`](input/grid_input.py) | Interactive user input for start/goal |
+| [`utils/logger.py`](utils/logger.py) | Logging configuration |
 
 ### Test Files
 
 | File | Purpose |
 |------|---------|
-| [`tests/test_q_learning.py`](project_01_q_learning/tests/test_q_learning.py) | Tests for Q-Learning agent |
-| [`tests/test_grid_world.py`](project_01_q_learning/tests/test_grid_world.py) | Tests for grid world environment |
-| [`tests/test_evaluate.py`](project_01_q_learning/tests/test_evaluate.py) | Tests for evaluation |
-| [`tests/test_checkpoint.py`](project_01_q_learning/tests/test_checkpoint.py) | Tests for checkpoint save/load |
-| [`tests/test_grid_input.py`](project_01_q_learning/tests/test_grid_input.py) | Tests for user input |
-| [`tests/test_tensorboard_logger.py`](project_01_q_learning/tests/test_tensorboard_logger.py) | Tests for TensorBoard logger |
-| [`tests/test_visualizer.py`](project_01_q_learning/tests/test_visualizer.py) | Tests for visualization |
+| [`tests/test_q_learning.py`](tests/test_q_learning.py) | Tests for Q-Learning agent |
+| [`tests/test_grid_world.py`](tests/test_grid_world.py) | Tests for grid world environment |
+| [`tests/test_evaluate.py`](tests/test_evaluate.py) | Tests for evaluation |
+| [`tests/test_checkpoint.py`](tests/test_checkpoint.py) | Tests for checkpoint save/load |
+| [`tests/test_grid_input.py`](tests/test_grid_input.py) | Tests for user input |
+| [`tests/test_tensorboard_logger.py`](tests/test_tensorboard_logger.py) | Tests for TensorBoard logger |
+| [`tests/test_visualizer.py`](tests/test_visualizer.py) | Tests for visualization |
 
 ---
 
