@@ -30,14 +30,14 @@ def test_evaluation_reaches_goal():
     )
 
     # Artificially define a known policy
-    agent.q_table[0, 0, Action.RIGHT] = 1
-    agent.q_table[0, 1, Action.RIGHT] = 1
-    agent.q_table[0, 2, Action.DOWN] = 1
-    agent.q_table[1, 2, Action.DOWN] = 1
-    agent.q_table[2, 2, Action.DOWN] = 1
-    agent.q_table[3, 2, Action.RIGHT] = 1
-    agent.q_table[3, 3, Action.DOWN] = 1
-    agent.q_table[4, 3, Action.RIGHT] = 1
+    agent.q_table[0, 0, 4, 4, Action.RIGHT] = 1
+    agent.q_table[0, 1, 4, 4, Action.RIGHT] = 1
+    agent.q_table[0, 2, 4, 4, Action.DOWN] = 1
+    agent.q_table[1, 2, 4, 4, Action.DOWN] = 1
+    agent.q_table[2, 2, 4, 4, Action.DOWN] = 1
+    agent.q_table[3, 2, 4, 4, Action.RIGHT] = 1
+    agent.q_table[3, 3, 4, 4, Action.DOWN] = 1
+    agent.q_table[4, 3, 4, 4, Action.RIGHT] = 1
 
     evaluator = Evaluator(
         env=env,
@@ -47,4 +47,4 @@ def test_evaluation_reaches_goal():
     result = evaluator.evaluate()
 
     assert result.success is True
-    assert result.path[-1] == (4, 4)
+    assert result.path[-1] == (4, 4, 4, 4)

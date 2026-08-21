@@ -29,7 +29,7 @@ def test_reset():
 
     state = env.reset()
 
-    assert state == (0, 0)
+    assert state == (0, 0, 4, 4)
     assert env.step_count == 0
 
 
@@ -40,7 +40,7 @@ def test_valid_movement():
 
     state, reward, done = env.step(Action.RIGHT)
 
-    assert state == (0, 1)
+    assert state == (0, 1, 4, 4)
     assert reward == -0.1
     assert done is False
 
@@ -54,7 +54,7 @@ def test_obstacle_movement():
 
     state, reward, done = env.step(Action.DOWN)
 
-    assert state == (0, 1)
+    assert state == (0, 1, 4, 4)
     assert reward == -1.0
     assert done is False
 
@@ -66,7 +66,7 @@ def test_outside_grid():
 
     state, reward, done = env.step(Action.UP)
 
-    assert state == (0, 0)
+    assert state == (0, 0, 4, 4)
     assert reward == -1.0
     assert done is False
 
@@ -90,7 +90,7 @@ def test_goal():
     for action in actions:
         state, reward, done = env.step(action)
 
-    assert state == (4, 4)
+    assert state == (4, 4, 4, 4)
     assert reward == 10.0
     assert done is True
 

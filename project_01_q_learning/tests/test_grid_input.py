@@ -19,15 +19,16 @@ def test_get_start_and_goal(monkeypatch):
     )
 
     grid_input = GridInput(
-        config=config,
+        rows=config.rows,
+        cols=config.cols,
     )
 
-    result = grid_input.get_start_and_goal(
+    start, goal = grid_input.get_start_and_goal(
         obstacles=set()
     )
 
-    assert result.start == (0, 0)
-    assert result.goal == (4, 4)
+    assert start == (0, 0)
+    assert goal == (4, 4)
 
 def test_start_cannot_be_obstacle(monkeypatch):
     values = iter([
@@ -48,12 +49,13 @@ def test_start_cannot_be_obstacle(monkeypatch):
     )
 
     grid_input = GridInput(
-        config=config,
+        rows=config.rows,
+        cols=config.cols,
     )
 
-    result = grid_input.get_start_and_goal(
+    start, goal = grid_input.get_start_and_goal(
         obstacles={(1, 1)}
     )
 
-    assert result.start == (0, 0)
-    assert result.goal == (4, 4)
+    assert start == (0, 0)
+    assert goal == (4, 4)
