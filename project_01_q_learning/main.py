@@ -1,4 +1,5 @@
 import argparse
+import random
 from pathlib import Path
 
 from agent import QLearningAgent
@@ -61,7 +62,6 @@ def create_agent() -> QLearningAgent:
 
 
 def train() -> None:
-    env = create_environment()
     agent = create_agent()
 
     config = TrainingConfig(
@@ -79,7 +79,9 @@ def train() -> None:
     )
 
     trainer = Trainer(
-        env=env,
+        rows=ROWS,
+        cols=COLS,
+        obstacles=OBSTACLES,
         agent=agent,
         config=config,
         checkpoint_manager=checkpoint_manager,
@@ -89,7 +91,7 @@ def train() -> None:
     trainer.train()
 
 
-def evaluate() -> None:
+def evaluate(start: tuple[int, int] | None = None, goal: tuple[int, int] | None = None) -> None:
     agent = create_agent()
 
     checkpoint_manager = CheckpointManager(
@@ -100,9 +102,30 @@ def evaluate() -> None:
         agent
     )
 
-    env = GridWorld(
-        checkpoint["config"]
+    # Use evaluate approach: pick start/goal from args or random
+    valid_positions = []
+    for row in range(ROWS):
+        for col in range(COLS):
+            if (row, col) not in OBSTACLES:
+                valid_positions.append((row, col))
+
+    if start is None:
+        start = random.choice(valid_positions)
+
+    if goal is None:
+        goal = random.choice(valid_positions)
+        while goal == start:
+            goal = random.choice(valid_positions)
+
+    config = GridWorldConfig(
+        rows=ROWS,
+        cols=COLS,
+        start=start,
+        goal=goal,
+        obstacles=OBSTACLES,
     )
+
+    env = GridWorld(config)
 
     evaluator = Evaluator(
         env=env,
@@ -155,10 +178,11 @@ def evaluate() -> None:
     print("Learned Path:")
 
     for index, state in enumerate(result.path):
+        row, col = state[0], state[1]
         if index == 0:
-            print(f"START → {state}")
+            print(f"START → ({row}, {col})")
         else:
-            print(f"       ↓ {state}")
+            print(f"       ↓ ({row}, {col})")
 
     print()
 
@@ -185,13 +209,31 @@ def main() -> None:
         ],
     )
 
+    parser.add_argument(
+        "--start",
+        nargs=2,
+        type=int,
+        metavar=("ROW", "COL"),
+        help="Start position as row col (e.g. --start 0 0)",
+    )
+
+    parser.add_argument(
+        "--goal",
+        nargs=2,
+        type=int,
+        metavar=("ROW", "COL"),
+        help="Goal position as row col (e.g. --goal 4 4)",
+    )
+
     args = parser.parse_args()
 
     if args.command == "train":
         train()
 
     elif args.command == "evaluate":
-        evaluate()
+        start = tuple(args.start) if args.start else None
+        goal = tuple(args.goal) if args.goal else None
+        evaluate(start=start, goal=goal)
 
 
 if __name__ == "__main__":
