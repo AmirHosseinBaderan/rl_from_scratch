@@ -45,8 +45,10 @@ class Evaluator:
             total_reward += reward
             steps += 1
 
+        row, col = state[0], state[1]
+
         return EvaluationResult(
-            success=state == self.env.goal,
+            success=(row, col) == self.env.goal,
             total_reward=total_reward,
             steps=steps,
             path=path,
