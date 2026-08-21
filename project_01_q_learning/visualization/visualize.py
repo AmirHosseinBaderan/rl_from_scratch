@@ -86,12 +86,12 @@ class GridWorldVisualizer:
 
         x = [
             col + 0.5
-            for row, col in path
+            for row, col, _, _ in path
         ]
 
         y = [
             row + 0.5
-            for row, col in path
+            for row, col, _, _ in path
         ]
 
         ax.plot(
