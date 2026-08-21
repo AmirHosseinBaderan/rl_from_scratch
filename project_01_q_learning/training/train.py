@@ -1,5 +1,7 @@
+import random
+
 from agent import QLearningAgent
-from environment import GridWorld
+from environment import GridWorld, GridWorldConfig
 from training import (
     CheckpointManager,
     TrainingConfig,
@@ -11,13 +13,17 @@ from utils.logger import logger
 class Trainer:
     def __init__(
             self,
-            env: GridWorld,
+            rows: int,
+            cols: int,
+            obstacles: frozenset[tuple[int, int]],
             agent: QLearningAgent,
             config: TrainingConfig,
             checkpoint_manager: CheckpointManager,
             tensor_logger: TensorBoardLogger,
     ):
-        self.env = env
+        self.rows = rows
+        self.cols = cols
+        self.obstacles = obstacles
         self.agent = agent
         self.config = config
 
@@ -29,12 +35,42 @@ class Trainer:
 
         self.successful_episodes = 0
 
+        self.valid_positions = self._get_valid_positions()
+
+    def _get_valid_positions(self):
+        valid = []
+        for row in range(self.rows):
+            for col in range(self.cols):
+                if (row, col) not in self.obstacles:
+                    valid.append((row, col))
+        return valid
+
+    def _get_random_start_goal(self):
+        start = random.choice(self.valid_positions)
+        goal = random.choice(self.valid_positions)
+        while goal == start:
+            goal = random.choice(self.valid_positions)
+        return start, goal
+
+    def _create_env(self, start, goal):
+        config = GridWorldConfig(
+            rows=self.rows,
+            cols=self.cols,
+            start=start,
+            goal=goal,
+            obstacles=self.obstacles,
+        )
+        return GridWorld(config)
+
     def train(self):
         for episode in range(
                 self.start_episode,
                 self.config.episodes + 1,
         ):
-            state = self.env.reset()
+            start, goal = self._get_random_start_goal()
+            env = self._create_env(start, goal)
+
+            state = env.reset()
 
             total_reward = 0.0
             episode_length = 0
@@ -44,7 +80,7 @@ class Trainer:
             while not done:
                 action = self.agent.choose_action(state)
 
-                next_state, reward, done = self.env.step(
+                next_state, reward, done = env.step(
                     action
                 )
 
@@ -61,7 +97,7 @@ class Trainer:
                 total_reward += reward
                 episode_length += 1
 
-            success = state == self.env.goal
+            success = (state[0], state[1]) == goal
 
             if success:
                 self.successful_episodes += 1
@@ -85,7 +121,7 @@ class Trainer:
 
                 self.checkpoint_manager.save_best(
                     agent=self.agent,
-                    config=self.env.config,
+                    config=env.config,
                     episode=episode,
                     best_reward=self.best_reward,
                 )
@@ -97,7 +133,7 @@ class Trainer:
             ):
                 self.checkpoint_manager.save_latest(
                     agent=self.agent,
-                    config=self.env.config,
+                    config=env.config,
                     episode=episode,
                     best_reward=self.best_reward,
                 )
@@ -109,6 +145,8 @@ class Trainer:
             ):
                 logger.info(
                     f"Episode {episode:5d} | "
+                    f"Start: {start} | "
+                    f"Goal: {goal} | "
                     f"Reward: {total_reward:7.2f} | "
                     f"Length: {episode_length:3d} | "
                     f"Epsilon: {self.agent.epsilon:.4f} | "
