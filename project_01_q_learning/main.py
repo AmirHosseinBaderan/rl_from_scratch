@@ -65,7 +65,7 @@ def train() -> None:
     agent = create_agent()
 
     config = TrainingConfig(
-        episodes=10_000,
+        episodes=50_000,
         checkpoint_interval=500,
         log_interval=100,
     )
@@ -98,7 +98,7 @@ def evaluate(start: tuple[int, int] | None = None, goal: tuple[int, int] | None 
         CHECKPOINT_DIR
     )
 
-    checkpoint = checkpoint_manager.load_best(
+    checkpoint = checkpoint_manager.load_latest(
         agent
     )
 
