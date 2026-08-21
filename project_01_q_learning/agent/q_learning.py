@@ -118,10 +118,10 @@ class QLearningAgent:
         )
 
     def get_greedy_action(self, state):
-        row, col = state
+        row, col, goal_row, goal_col = state
 
         return Action(
-            np.argmax(
-                self.q_table[row, col]
-            )
+            int(np.argmax(
+                self.q_table[row, col, goal_row, goal_col]
+            ))
         )
