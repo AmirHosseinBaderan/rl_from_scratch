@@ -1,34 +1,39 @@
-import numpy as np
+import time
 
-from environment import Grid, Food, Snake
+from environment import Direction, SnakeEnvironment
 from visualization import Renderer
 
 
 def main() -> None:
-    grid = Grid(
+    environment = SnakeEnvironment(
         width=10,
         height=10,
     )
 
-    snake = Snake(
-        body=[
-            np.array([4, 5]),
-            np.array([3, 5]),
-            np.array([2, 5]),
-        ],
-        direction=np.array([1, 0]),
-    )
+    renderer = Renderer(environment.grid)
 
-    food = Food(
-        position=np.array([7, 5]),
-    )
+    directions = [
+        Direction.RIGHT,
+        Direction.RIGHT,
+        Direction.RIGHT,
+        Direction.UP,
+        Direction.UP,
+        Direction.LEFT,
+        Direction.LEFT,
+        Direction.DOWN,
+        Direction.DOWN,
+        Direction.RIGHT,
+    ]
 
-    renderer = Renderer(grid)
+    for direction in directions:
+        environment.step(direction)
 
-    renderer.render(
-        snake=snake,
-        food=food,
-    )
+        renderer.render(
+            snake=environment.snake,
+            food=environment.food,
+        )
+
+        time.sleep(0.2)
 
     input("Press Enter to close...")
 
