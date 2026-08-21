@@ -6,16 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="8bb41578-b8c3-41cc-9c53-ac12f1a6b574" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_01_q_learning/checkpoint/latest.npz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_01_q_learning/checkpoints/q_learning/best.npz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_01_q_learning/checkpoints/q_learning/latest.npz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_01_q_learning/logs/events.out.tfevents.1787261444.debian.110079.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_01_q_learning/logs/events.out.tfevents.1787261508.debian.110226.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_01_q_learning/logs/events.out.tfevents.1787261527.debian.110392.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_01_q_learning/runs/q_learning/events.out.tfevents.1787258042.debian.102789.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_01_q_learning/runs/q_learning/events.out.tfevents.1787259526.debian.104856.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_01_q_learning/runs/q_learning/events.out.tfevents.1787263100.debian.111934.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_01_q_learning/runs/q_learning/events.out.tfevents.1787263179.debian.112093.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/agent/q_learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/agent/q_learning.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/environment/grid_world.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/environment/grid_world.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/evaluation/evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/evaluation/evaluate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/tests/test_evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/tests/test_evaluate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/tests/test_grid_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/tests/test_grid_input.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/tests/test_grid_world.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/tests/test_grid_world.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/tests/test_q_learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/tests/test_q_learning.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/tests/test_visualizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/tests/test_visualizer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/training/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/training/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_01_q_learning/visualization/visualize.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_01_q_learning/visualization/visualize.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +98,7 @@
       <updated>1787224691272</updated>
       <workItem from="1787224693317" duration="5556000" />
       <workItem from="1787232693734" duration="4001000" />
-      <workItem from="1787307133326" duration="546000" />
+      <workItem from="1787307133326" duration="2315000" />
     </task>
     <servers />
   </component>
