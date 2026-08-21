@@ -1,18 +1,39 @@
-import matplotlib.pyplot as plt
+import numpy as np
+
+from environment import Grid, Food, Snake
+from visualization import Renderer
 
 
-GRID_SIZE = 10
+def main() -> None:
+    grid = Grid(
+        width=10,
+        height=10,
+    )
 
-fig, ax = plt.subplots()
+    snake = Snake(
+        body=[
+            np.array([4, 5]),
+            np.array([3, 5]),
+            np.array([2, 5]),
+        ],
+        direction=np.array([1, 0]),
+    )
 
-ax.set_xlim(0, GRID_SIZE)
-ax.set_ylim(0, GRID_SIZE)
+    food = Food(
+        position=np.array([7, 5]),
+    )
 
-ax.set_xticks(range(GRID_SIZE + 1))
-ax.set_yticks(range(GRID_SIZE + 1))
+    renderer = Renderer(grid)
 
-ax.grid(True)
+    renderer.render(
+        snake=snake,
+        food=food,
+    )
 
-ax.set_aspect("equal")
+    input("Press Enter to close...")
 
-plt.show()
+    renderer.close()
+
+
+if __name__ == "__main__":
+    main()
