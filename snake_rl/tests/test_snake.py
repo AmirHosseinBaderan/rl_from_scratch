@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from environment import Snake
+from environment import Direction, Snake
 
 
 def create_snake() -> Snake:
@@ -11,7 +11,7 @@ def create_snake() -> Snake:
             np.array([4, 5]),
             np.array([3, 5]),
         ],
-        direction=np.array([1, 0]),
+        direction=Direction.RIGHT,
     )
 
 
@@ -19,23 +19,18 @@ def test_snake_creation():
     snake = create_snake()
 
     assert len(snake.body) == 3
-    assert np.array_equal(snake.head, np.array([5, 5]))
-    assert np.array_equal(snake.direction, np.array([1, 0]))
+    assert np.array_equal(
+        snake.head,
+        np.array([5, 5]),
+    )
+    assert snake.direction == Direction.RIGHT
 
 
 def test_snake_cannot_have_empty_body():
     with pytest.raises(ValueError):
         Snake(
             body=[],
-            direction=np.array([1, 0]),
-        )
-
-
-def test_snake_rejects_invalid_direction_shape():
-    with pytest.raises(ValueError):
-        Snake(
-            body=[np.array([5, 5])],
-            direction=np.array([1, 0, 0]),
+            direction=Direction.RIGHT,
         )
 
 
@@ -64,19 +59,30 @@ def test_snake_length_remains_constant_after_move():
     assert len(snake.body) == initial_length
 
 
-def test_snake_change_direction():
+@pytest.mark.parametrize(
+    "direction, expected_head",
+    [
+        (Direction.RIGHT, np.array([6, 5])),
+        (Direction.LEFT, np.array([4, 5])),
+        (Direction.UP, np.array([5, 6])),
+        (Direction.DOWN, np.array([5, 4])),
+    ],
+)
+def test_snake_moves_in_direction(direction, expected_head):
     snake = create_snake()
 
-    snake.change_direction(np.array([0, 1]))
+    snake.change_direction(direction)
+    snake.move()
 
     assert np.array_equal(
-        snake.direction,
-        np.array([0, 1]),
+        snake.head,
+        expected_head,
     )
 
 
-def test_snake_rejects_invalid_direction():
+def test_snake_change_direction():
     snake = create_snake()
 
-    with pytest.raises(ValueError):
-        snake.change_direction(np.array([1, 2, 3]))
+    snake.change_direction(Direction.UP)
+
+    assert snake.direction == Direction.UP
