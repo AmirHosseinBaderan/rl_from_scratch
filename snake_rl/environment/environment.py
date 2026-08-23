@@ -61,6 +61,9 @@ class SnakeEnvironment:
 
         self.snake.move(grow=food_eaten)
 
+        if food_eaten:
+            self.spawn_food()
+
     def is_collision(self) -> bool:
         if not self.grid.contains(self.snake.head):
             return True
@@ -78,3 +81,22 @@ class SnakeEnvironment:
             self.snake.head,
             self.food.position,
         )
+
+    def spawn_food(self) -> None:
+        available_positions = [
+            np.array([x, y], dtype=np.int64)
+            for x in range(self.width)
+            for y in range(self.height)
+            if not any(
+                np.array_equal(
+                    np.array([x, y]),
+                    segment,
+                )
+                for segment in self.snake.body
+            )
+        ]
+
+        if not available_positions:
+            raise RuntimeError("No available position for food.")
+
+        self.food.position = available_positions[0]

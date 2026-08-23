@@ -155,3 +155,19 @@ def test_snake_does_not_grow_without_eating_food():
     environment.step(Direction.RIGHT)
 
     assert len(environment.snake.body) == initial_length
+
+def test_spawn_food_does_not_place_food_on_snake():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    environment.spawn_food()
+
+    assert not any(
+        np.array_equal(
+            environment.food.position,
+            segment,
+        )
+        for segment in environment.snake.body
+    )
