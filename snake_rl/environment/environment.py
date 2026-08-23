@@ -52,3 +52,15 @@ class SnakeEnvironment:
     def step(self, direction: Direction) -> None:
         self.snake.change_direction(direction)
         self.snake.move()
+
+    def is_collision(self) -> bool:
+        if not self.grid.contains(self.snake.head):
+            return True
+
+        return any(
+            np.array_equal(
+                self.snake.head,
+                segment,
+            )
+            for segment in self.snake.body[1:]
+        )

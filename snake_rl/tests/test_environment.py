@@ -86,3 +86,41 @@ def test_environment_reset_restores_initial_state():
         environment.food.position,
         np.array([8, 5]),
     )
+
+def test_collision_when_snake_leaves_right_boundary():
+    environment = SnakeEnvironment(
+        width=5,
+        height=5,
+    )
+
+    environment.step(Direction.RIGHT)
+    assert not environment.is_collision()
+
+    environment.step(Direction.RIGHT)
+    assert not environment.is_collision()
+
+    environment.step(Direction.RIGHT)
+    assert environment.is_collision()
+
+def test_collision_when_snake_leaves_left_boundary():
+    environment = SnakeEnvironment(
+        width=5,
+        height=5,
+    )
+
+    environment.snake.body = [
+        np.array([2, 2]),
+        np.array([3, 2]),
+        np.array([4, 2]),
+    ]
+
+    environment.snake.change_direction(Direction.LEFT)
+
+    environment.step(Direction.LEFT)
+    assert not environment.is_collision()
+
+    environment.step(Direction.LEFT)
+    assert not environment.is_collision()
+
+    environment.step(Direction.LEFT)
+    assert environment.is_collision()
