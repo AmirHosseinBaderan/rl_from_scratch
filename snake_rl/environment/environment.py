@@ -51,7 +51,15 @@ class SnakeEnvironment:
 
     def step(self, direction: Direction) -> None:
         self.snake.change_direction(direction)
-        self.snake.move()
+
+        next_head = self.snake.head + self.snake.direction.vector
+
+        food_eaten = np.array_equal(
+            next_head,
+            self.food.position,
+        )
+
+        self.snake.move(grow=food_eaten)
 
     def is_collision(self) -> bool:
         if not self.grid.contains(self.snake.head):
@@ -63,4 +71,10 @@ class SnakeEnvironment:
                 segment,
             )
             for segment in self.snake.body[1:]
+        )
+
+    def is_food_eaten(self) -> bool:
+        return np.array_equal(
+            self.snake.head,
+            self.food.position,
         )

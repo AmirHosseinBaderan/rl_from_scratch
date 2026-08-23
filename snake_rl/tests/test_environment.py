@@ -124,3 +124,34 @@ def test_collision_when_snake_leaves_left_boundary():
 
     environment.step(Direction.LEFT)
     assert environment.is_collision()
+
+def test_snake_eats_food_and_grows():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    environment.food.position = np.array([6, 5])
+
+    initial_length = len(environment.snake.body)
+
+    environment.step(Direction.RIGHT)
+
+    assert len(environment.snake.body) == initial_length + 1
+
+    assert np.array_equal(
+        environment.snake.head,
+        np.array([6, 5]),
+    )
+
+def test_snake_does_not_grow_without_eating_food():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    initial_length = len(environment.snake.body)
+
+    environment.step(Direction.RIGHT)
+
+    assert len(environment.snake.body) == initial_length
