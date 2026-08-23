@@ -6,6 +6,7 @@ from .direction import Direction
 from .food import Food
 from .grid import Grid
 from .snake import Snake
+from .reward import Reward
 
 
 @dataclass
@@ -51,9 +52,9 @@ class SnakeEnvironment:
 
         self.done = False
 
-    def step(self, direction: Direction) -> None:
+    def step(self, direction: Direction) -> int:
         if self.done:
-            return
+            return 0
 
         self.snake.change_direction(direction)
 
@@ -70,6 +71,14 @@ class SnakeEnvironment:
             self.spawn_food()
 
         self.done = self.is_collision()
+
+        if self.done:
+            return Reward.COLLISION
+
+        if food_eaten:
+            return Reward.FOOD
+
+        return Reward.STEP
 
     def is_collision(self) -> bool:
         if not self.grid.contains(self.snake.head):
