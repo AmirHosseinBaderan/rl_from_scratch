@@ -1,5 +1,5 @@
-from environment import Reward
-
+from environment import Reward, SnakeEnvironment, Direction
+import numpy as np
 
 def test_food_reward():
     assert Reward.FOOD == 10
@@ -11,3 +11,42 @@ def test_collision_reward():
 
 def test_step_reward():
     assert Reward.STEP == -1
+
+def test_step_returns_step_reward():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    reward = environment.step(Direction.RIGHT)
+
+    assert reward == Reward.STEP
+
+def test_step_returns_food_reward_when_food_is_eaten():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    environment.food.position = np.array([6, 5])
+
+    reward = environment.step(Direction.RIGHT)
+
+    assert reward == Reward.FOOD
+
+def test_step_returns_collision_reward_when_snake_collides():
+    environment = SnakeEnvironment(
+        width=5,
+        height=5,
+    )
+
+    environment.snake.body = [
+        np.array([4, 2]),
+        np.array([3, 2]),
+        np.array([2, 2]),
+    ]
+
+    reward = environment.step(Direction.RIGHT)
+
+    assert reward == Reward.COLLISION
+    assert environment.done is True
