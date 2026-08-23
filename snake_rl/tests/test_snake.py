@@ -86,3 +86,21 @@ def test_snake_change_direction():
     snake.change_direction(Direction.UP)
 
     assert snake.direction == Direction.UP
+
+def test_snake_grows_when_move_is_marked_as_growth():
+    snake = create_snake()
+
+    initial_length = len(snake.body)
+
+    snake.move(grow=True)
+
+    assert len(snake.body) == initial_length + 1
+
+def test_snake_does_not_grow_during_normal_move():
+    snake = create_snake()
+
+    initial_length = len(snake.body)
+
+    snake.move()
+
+    assert len(snake.body) == initial_length
