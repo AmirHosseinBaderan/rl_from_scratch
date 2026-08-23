@@ -171,3 +171,97 @@ def test_spawn_food_does_not_place_food_on_snake():
         )
         for segment in environment.snake.body
     )
+
+def test_food_moves_after_being_eaten():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    environment.food.position = np.array([6, 5])
+
+    environment.step(Direction.RIGHT)
+
+    assert not np.array_equal(
+        environment.food.position,
+        np.array([6, 5]),
+    )
+
+    assert not any(
+        np.array_equal(
+            environment.food.position,
+            segment,
+        )
+        for segment in environment.snake.body
+    )
+
+def test_environment_starts_with_done_false():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    assert environment.done is False
+
+def test_environment_becomes_done_after_wall_collision():
+    environment = SnakeEnvironment(
+        width=5,
+        height=5,
+    )
+
+    environment.snake.body = [
+        np.array([4, 2]),
+        np.array([3, 2]),
+        np.array([2, 2]),
+    ]
+
+    environment.snake.change_direction(Direction.RIGHT)
+
+    environment.step(Direction.RIGHT)
+
+    assert environment.done is True
+
+def test_environment_becomes_done_after_self_collision():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    environment.snake.body = [
+        np.array([5, 5]),
+        np.array([5, 4]),
+        np.array([4, 4]),
+        np.array([4, 5]),
+        np.array([5, 6]),
+    ]
+
+    environment.snake.direction = Direction.LEFT
+
+    environment.step(Direction.LEFT)
+
+    assert environment.done is True
+
+def test_environment_does_not_move_after_done():
+    environment = SnakeEnvironment(
+        width=5,
+        height=5,
+    )
+
+    environment.snake.body = [
+        np.array([4, 2]),
+        np.array([3, 2]),
+        np.array([2, 2]),
+    ]
+
+    environment.step(Direction.RIGHT)
+
+    assert environment.done is True
+
+    head_after_collision = environment.snake.head.copy()
+
+    environment.step(Direction.RIGHT)
+
+    assert np.array_equal(
+        environment.snake.head,
+        head_after_collision,
+    )

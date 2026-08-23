@@ -49,7 +49,12 @@ class SnakeEnvironment:
             )
         )
 
+        self.done = False
+
     def step(self, direction: Direction) -> None:
+        if self.done:
+            return
+
         self.snake.change_direction(direction)
 
         next_head = self.snake.head + self.snake.direction.vector
@@ -63,6 +68,8 @@ class SnakeEnvironment:
 
         if food_eaten:
             self.spawn_food()
+
+        self.done = self.is_collision()
 
     def is_collision(self) -> bool:
         if not self.grid.contains(self.snake.head):
