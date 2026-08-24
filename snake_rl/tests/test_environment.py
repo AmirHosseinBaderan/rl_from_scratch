@@ -310,3 +310,40 @@ def test_environment_accepts_action():
         environment.snake.head,
         expected_head,
     )
+
+def test_reset_returns_initial_state():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    state = environment.reset()
+
+    assert state.values.shape == (12,)
+    assert environment.done is False
+
+def test_reset_restores_environment_after_episode():
+    environment = SnakeEnvironment(
+        width=5,
+        height=5,
+    )
+
+    environment.snake.body = [
+        np.array([4, 2]),
+        np.array([3, 2]),
+        np.array([2, 2]),
+    ]
+
+    result = environment.step(Action.RIGHT)
+
+    assert result.done is True
+
+    state = environment.reset()
+
+    assert state.values.shape == (12,)
+    assert environment.done is False
+
+    assert np.array_equal(
+        environment.snake.head,
+        np.array([2, 2]),
+    )

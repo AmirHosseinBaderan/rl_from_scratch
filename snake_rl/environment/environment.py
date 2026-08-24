@@ -26,7 +26,7 @@ class SnakeEnvironment:
         self.state_builder = StateBuilder()
         self.reset()
 
-    def reset(self) -> None:
+    def reset(self) -> SnakeState:
         center = np.array(
             [
                 self.width // 2,
@@ -55,6 +55,8 @@ class SnakeEnvironment:
         )
 
         self.done = False
+
+        return self.get_state()
 
     def step(self, action: Action) -> StepResult:
         if self.done:
