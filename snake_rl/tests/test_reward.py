@@ -18,9 +18,9 @@ def test_step_returns_step_reward():
         height=10,
     )
 
-    reward = environment.step(Action.RIGHT)
+    step_result = environment.step(Action.RIGHT)
 
-    assert reward == Reward.STEP
+    assert step_result.reward == Reward.STEP
 
 def test_step_returns_food_reward_when_food_is_eaten():
     environment = SnakeEnvironment(
@@ -30,9 +30,9 @@ def test_step_returns_food_reward_when_food_is_eaten():
 
     environment.food.position = np.array([6, 5])
 
-    reward = environment.step(Action.RIGHT)
+    step_result = environment.step(Action.RIGHT)
 
-    assert reward == Reward.FOOD
+    assert step_result.reward == Reward.FOOD
 
 def test_step_returns_collision_reward_when_snake_collides():
     environment = SnakeEnvironment(
@@ -46,7 +46,7 @@ def test_step_returns_collision_reward_when_snake_collides():
         np.array([2, 2]),
     ]
 
-    reward = environment.step(Action.RIGHT)
+    step_result = environment.step(Action.RIGHT)
 
-    assert reward == Reward.COLLISION
+    assert step_result.reward == Reward.COLLISION
     assert environment.done is True
