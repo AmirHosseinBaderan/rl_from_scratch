@@ -5,5 +5,6 @@ from .direction import Direction
 from .environment import SnakeEnvironment
 from .reward import Reward
 from .state import SnakeState
+from .state_builder import StateBuilder
 
-__all__ = ["Grid", "Snake","Food", "Direction","SnakeEnvironment","Reward","SnakeState"]
+__all__ = ["Grid", "Snake","Food", "Direction","SnakeEnvironment","Reward","SnakeState","StateBuilder"]
