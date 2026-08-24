@@ -2,6 +2,8 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from .state_builder import StateBuilder
+from .state import  SnakeState
 from .direction import Direction
 from .food import Food
 from .grid import Grid
@@ -20,6 +22,7 @@ class SnakeEnvironment:
             height=self.height,
         )
 
+        self.state_builder = StateBuilder()
         self.reset()
 
     def reset(self) -> None:
@@ -116,3 +119,10 @@ class SnakeEnvironment:
             raise RuntimeError("No available position for food.")
 
         self.food.position = available_positions[0]
+
+    def get_state(self) -> SnakeState:
+        return self.state_builder.build(
+            snake=self.snake,
+            food=self.food,
+            grid=self.grid,
+        )

@@ -1,6 +1,6 @@
 import numpy as np
 
-from environment import Direction, SnakeEnvironment
+from environment import Direction, SnakeEnvironment, SnakeState
 
 
 def test_environment_creation():
@@ -264,4 +264,32 @@ def test_environment_does_not_move_after_done():
     assert np.array_equal(
         environment.snake.head,
         head_after_collision,
+    )
+
+def test_environment_returns_current_state():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    state = environment.get_state()
+
+    assert isinstance(state, SnakeState)
+    assert state.values.shape == (12,)
+
+def test_environment_state_updates_after_movement():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    state_before = environment.get_state()
+
+    environment.step(Direction.UP)
+
+    state_after = environment.get_state()
+
+    assert not np.array_equal(
+        state_before.values,
+        state_after.values,
     )

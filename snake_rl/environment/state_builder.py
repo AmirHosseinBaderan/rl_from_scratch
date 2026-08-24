@@ -8,6 +8,7 @@ from .state import SnakeState
 
 
 class StateBuilder:
+
     def build(
         self,
         snake: Snake,
