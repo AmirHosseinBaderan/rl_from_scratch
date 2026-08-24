@@ -1,6 +1,6 @@
 import numpy as np
 
-from environment import Direction, SnakeEnvironment, SnakeState
+from environment import Direction, SnakeEnvironment, SnakeState,Action
 
 
 def test_environment_creation():
@@ -40,7 +40,7 @@ def test_environment_step_moves_snake():
         height=10,
     )
 
-    environment.step(Direction.RIGHT)
+    environment.step(Action.RIGHT)
 
     assert np.array_equal(
         environment.snake.head,
@@ -54,7 +54,7 @@ def test_environment_step_changes_direction():
         height=10,
     )
 
-    environment.step(Direction.UP)
+    environment.step(Action.UP)
 
     assert environment.snake.direction == Direction.UP
 
@@ -70,8 +70,8 @@ def test_environment_reset_restores_initial_state():
         height=10,
     )
 
-    environment.step(Direction.UP)
-    environment.step(Direction.LEFT)
+    environment.step(Action.UP)
+    environment.step(Action.LEFT)
 
     environment.reset()
 
@@ -93,13 +93,13 @@ def test_collision_when_snake_leaves_right_boundary():
         height=5,
     )
 
-    environment.step(Direction.RIGHT)
+    environment.step(Action.RIGHT)
     assert not environment.is_collision()
 
-    environment.step(Direction.RIGHT)
+    environment.step(Action.RIGHT)
     assert not environment.is_collision()
 
-    environment.step(Direction.RIGHT)
+    environment.step(Action.RIGHT)
     assert environment.is_collision()
 
 def test_collision_when_snake_leaves_left_boundary():
@@ -116,13 +116,13 @@ def test_collision_when_snake_leaves_left_boundary():
 
     environment.snake.change_direction(Direction.LEFT)
 
-    environment.step(Direction.LEFT)
+    environment.step(Action.LEFT)
     assert not environment.is_collision()
 
-    environment.step(Direction.LEFT)
+    environment.step(Action.LEFT)
     assert not environment.is_collision()
 
-    environment.step(Direction.LEFT)
+    environment.step(Action.LEFT)
     assert environment.is_collision()
 
 def test_snake_eats_food_and_grows():
@@ -135,7 +135,7 @@ def test_snake_eats_food_and_grows():
 
     initial_length = len(environment.snake.body)
 
-    environment.step(Direction.RIGHT)
+    environment.step(Action.RIGHT)
 
     assert len(environment.snake.body) == initial_length + 1
 
@@ -152,7 +152,7 @@ def test_snake_does_not_grow_without_eating_food():
 
     initial_length = len(environment.snake.body)
 
-    environment.step(Direction.RIGHT)
+    environment.step(Action.RIGHT)
 
     assert len(environment.snake.body) == initial_length
 
@@ -180,7 +180,7 @@ def test_food_moves_after_being_eaten():
 
     environment.food.position = np.array([6, 5])
 
-    environment.step(Direction.RIGHT)
+    environment.step(Action.RIGHT)
 
     assert not np.array_equal(
         environment.food.position,
@@ -217,7 +217,7 @@ def test_environment_becomes_done_after_wall_collision():
 
     environment.snake.change_direction(Direction.RIGHT)
 
-    environment.step(Direction.RIGHT)
+    environment.step(Action.RIGHT)
 
     assert environment.done is True
 
@@ -237,7 +237,7 @@ def test_environment_becomes_done_after_self_collision():
 
     environment.snake.direction = Direction.LEFT
 
-    environment.step(Direction.LEFT)
+    environment.step(Action.LEFT)
 
     assert environment.done is True
 
@@ -253,13 +253,13 @@ def test_environment_does_not_move_after_done():
         np.array([2, 2]),
     ]
 
-    environment.step(Direction.RIGHT)
+    environment.step(Action.RIGHT)
 
     assert environment.done is True
 
     head_after_collision = environment.snake.head.copy()
 
-    environment.step(Direction.RIGHT)
+    environment.step(Action.RIGHT)
 
     assert np.array_equal(
         environment.snake.head,
@@ -285,11 +285,28 @@ def test_environment_state_updates_after_movement():
 
     state_before = environment.get_state()
 
-    environment.step(Direction.UP)
+    environment.step(Action.UP)
 
     state_after = environment.get_state()
 
     assert not np.array_equal(
         state_before.values,
         state_after.values,
+    )
+
+def test_environment_accepts_action():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    initial_head = environment.snake.head.copy()
+
+    environment.step(Action.RIGHT)
+
+    expected_head = initial_head + Direction.RIGHT.vector
+
+    assert np.array_equal(
+        environment.snake.head,
+        expected_head,
     )

@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from .action import to_direction, Action
 from .state_builder import StateBuilder
 from .state import  SnakeState
 from .direction import Direction
@@ -55,9 +56,11 @@ class SnakeEnvironment:
 
         self.done = False
 
-    def step(self, direction: Direction) -> int:
+    def step(self, action: Action) -> int:
         if self.done:
             return 0
+
+        direction = to_direction(action)
 
         self.snake.change_direction(direction)
 
