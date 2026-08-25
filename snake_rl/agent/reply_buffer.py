@@ -1,7 +1,7 @@
 from collections import deque
 import random
 
-from .exprience import Experience
+from .experience import Experience
 
 
 class ReplayBuffer:
