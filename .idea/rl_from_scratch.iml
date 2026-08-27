@@ -6,7 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/snake_rl" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.11 (rl_from_scratch) (2)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="~/Projects/Teams/Me/rl_from_scratch/.venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
