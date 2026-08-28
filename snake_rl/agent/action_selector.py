@@ -46,3 +46,23 @@ class EpsilonGreedySelector:
         return Action(
             torch.argmax(q_values).item()
         )
+
+    def decay(
+            self,
+            amount: float,
+            minimum: float,
+    ) -> None:
+        if amount < 0.0:
+            raise ValueError(
+                "amount must be greater than or equal to 0."
+            )
+
+        if not 0.0 <= minimum <= 1.0:
+            raise ValueError(
+                "minimum must be between 0 and 1."
+            )
+
+        self.epsilon = max(
+            minimum,
+            self.epsilon - amount,
+        )
