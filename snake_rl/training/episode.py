@@ -13,6 +13,7 @@ class EpisodeResult:
 def run_episode(
     environment: SnakeEnvironment,
     agent: DQNAgent,
+    batch_size: int,
 ) -> EpisodeResult:
 
     state = environment.reset()
@@ -34,6 +35,9 @@ def run_episode(
         )
 
         agent.replay_buffer.add(experience)
+
+        if len(agent.replay_buffer) >= batch_size:
+            agent.learn(batch_size)
 
         total_reward += float(result.reward)
         steps += 1
