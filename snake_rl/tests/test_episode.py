@@ -1,5 +1,5 @@
 from agent import DQNAgent
-from environment import SnakeEnvironment
+from environment import SnakeEnvironment, Action
 from training import run_episode
 
 
@@ -44,10 +44,14 @@ def test_run_episode_learns_when_buffer_is_ready():
 
     learn_calls = []
 
+    def fake_select_action(state):
+        return Action.RIGHT
+
     def fake_learn(batch_size: int) -> float:
         learn_calls.append(batch_size)
         return 0.0
 
+    agent.select_action = fake_select_action
     agent.learn = fake_learn
 
     result = run_episode(
@@ -56,9 +60,40 @@ def test_run_episode_learns_when_buffer_is_ready():
         batch_size=4,
     )
 
-    assert result.steps > 0
+    assert result.steps >= 4
     assert len(learn_calls) > 0
     assert all(
         batch_size == 4
         for batch_size in learn_calls
     )
+
+def test_run_episode_does_not_learn_before_buffer_is_ready():
+    environment = SnakeEnvironment(
+        width=3,
+        height=3,
+    )
+
+    agent = DQNAgent(
+        state_size=12,
+        action_size=4,
+        learning_rate=0.001,
+        gamma=0.99,
+        epsilon=0.0,
+        replay_capacity=100,
+    )
+
+    learn_calls = []
+
+    def fake_learn(batch_size: int) -> float:
+        learn_calls.append(batch_size)
+        return 0.0
+
+    agent.learn = fake_learn
+
+    run_episode(
+        environment=environment,
+        agent=agent,
+        batch_size=100,
+    )
+
+    assert learn_calls == []
