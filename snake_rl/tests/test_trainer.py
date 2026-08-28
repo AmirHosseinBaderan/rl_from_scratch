@@ -4,7 +4,7 @@ import pytest
 
 from training import (
     Trainer,
-    TrainingResult,
+    TrainingResult, TensorBoardLogger,
 )
 
 
@@ -140,3 +140,32 @@ def test_trainer_does_not_decay_epsilon_below_minimum():
     trainer.train()
 
     assert agent.selector.epsilon == pytest.approx(0.1)
+
+def test_trainer_logs_training_metrics(tmp_path):
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
+    agent = create_agent()
+
+    logger = TensorBoardLogger(
+        tmp_path / "runs"
+    )
+
+    trainer = Trainer(
+        environment=environment,
+        agent=agent,
+        episodes=3,
+        batch_size=4,
+        epsilon_decay=0.1,
+        minimum_epsilon=0.1,
+        logger=logger,
+    )
+
+    trainer.train()
+    logger.close()
+
+    assert any(
+        (tmp_path / "runs").iterdir()
+    )
