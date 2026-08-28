@@ -2,6 +2,7 @@ from .q_network import QNetwork
 from .action_selector import EpsilonGreedySelector
 from .experience import Experience
 from .reply_buffer import ReplayBuffer
+from .replay_buffer import ReplayBuffer
 from .batch import create_batch
 from .targets import compute_bellman_target
 from .q_values import select_action_q_values
