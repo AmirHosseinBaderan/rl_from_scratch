@@ -2,7 +2,7 @@ import numpy as np
 import torch
 
 from agent import Experience, DQNAgent
-from environment import Action
+from environment import Action, SnakeEnvironment
 
 
 def create_experience() -> Experience:
@@ -21,6 +21,11 @@ def create_experience() -> Experience:
     )
 
 def test_agent_selects_valid_action():
+    environment = SnakeEnvironment(
+        width=10,
+        height=10,
+    )
+
     agent = DQNAgent(
         state_size=12,
         action_size=4,
@@ -30,12 +35,11 @@ def test_agent_selects_valid_action():
         replay_capacity=100,
     )
 
-    state = torch.zeros(12)
+    state = environment.reset()
 
     action = agent.select_action(state)
 
     assert action in Action
-
 def test_agent_learns_from_replay_buffer():
     agent = DQNAgent(
         state_size=12,
