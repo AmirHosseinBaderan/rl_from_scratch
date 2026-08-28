@@ -3,5 +3,6 @@ from .action_selector import EpsilonGreedySelector
 from .experience import Experience
 from .reply_buffer import ReplayBuffer
 from .batch import create_batch
+from .targets import compute_bellman_target
 
-__all__ = ["QNetwork","EpsilonGreedySelector","Experience","ReplayBuffer","create_batch"]
+__all__ = ["QNetwork","EpsilonGreedySelector","Experience","ReplayBuffer","create_batch","compute_bellman_target"]
