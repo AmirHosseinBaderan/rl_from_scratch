@@ -1,6 +1,6 @@
 import torch
 
-from environment import Action
+from environment import Action, SnakeState
 
 from .replay_buffer import ReplayBuffer
 from .action_selector import EpsilonGreedySelector
@@ -44,11 +44,18 @@ class DQNAgent:
         )
 
     def select_action(
-        self,
-        state: torch.Tensor,
+            self,
+            state: SnakeState,
     ) -> Action:
+        state_tensor = torch.as_tensor(
+            state.values,
+            dtype=torch.float32,
+        )
+
         with torch.no_grad():
-            q_values = self.network(state)
+            q_values = self.network(
+                state_tensor
+            )
 
         return self.selector.select(q_values)
 
