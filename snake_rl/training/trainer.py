@@ -1,8 +1,10 @@
 from dataclasses import dataclass
+
 from agent import DQNAgent
 from environment import SnakeEnvironment
 
 from .episode import EpisodeResult, run_episode
+from .logger import TensorBoardLogger
 
 
 @dataclass(frozen=True)
@@ -14,22 +16,23 @@ class TrainingResult:
 
 class Trainer:
     def __init__(
-            self,
-            environment: SnakeEnvironment,
-            agent: DQNAgent,
-            episodes: int,
-            batch_size: int,
-            epsilon_decay: float,
-            minimum_epsilon: float,
+        self,
+        environment: SnakeEnvironment,
+        agent: DQNAgent,
+        episodes: int,
+        batch_size: int,
+        epsilon_decay: float,
+        minimum_epsilon: float,
+        logger: TensorBoardLogger | None = None,
     ):
         if episodes <= 0:
             raise ValueError(
-                "episodes mist be greater than -"
+                "episodes must be greater than 0."
             )
 
         if batch_size <= 0:
             raise ValueError(
-                "batch_size mist be greater than 0"
+                "batch_size must be greater than 0."
             )
 
         if epsilon_decay < 0.0:
@@ -48,12 +51,13 @@ class Trainer:
         self.batch_size = batch_size
         self.epsilon_decay = epsilon_decay
         self.minimum_epsilon = minimum_epsilon
+        self.logger = logger
 
     def train(self) -> TrainingResult:
         rewards: list[float] = []
         steps: list[int] = []
 
-        for _ in range(self.episodes):
+        for episode in range(self.episodes):
             result: EpisodeResult = run_episode(
                 environment=self.environment,
                 agent=self.agent,
@@ -62,6 +66,34 @@ class Trainer:
 
             rewards.append(result.total_reward)
             steps.append(result.steps)
+
+            if self.logger is not None:
+                self.logger.log_scalar(
+                    tag="training/reward",
+                    value=result.total_reward,
+                    step=episode,
+                )
+
+                self.logger.log_scalar(
+                    tag="training/steps",
+                    value=result.steps,
+                    step=episode,
+                )
+
+                if result.losses:
+                    average_loss = sum(result.losses) / len(result.losses)
+
+                    self.logger.log_scalar(
+                        tag="training/loss",
+                        value=average_loss,
+                        step=episode,
+                    )
+
+                self.logger.log_scalar(
+                    tag="training/epsilon",
+                    value=self.agent.selector.epsilon,
+                    step=episode,
+                )
 
             self.agent.selector.decay(
                 amount=self.epsilon_decay,
