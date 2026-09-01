@@ -4,8 +4,7 @@ cuda-pathfinder==1.6.0
 cuda-toolkit==13.0.3.0
 filelock==3.32.2
 fsspec==2026.7.0
-grpcio==1.83.0
-iniconfig==2.3.0
+grpcio==1.83.1
 Jinja2==3.1.6
 Markdown==3.10.3
 MarkupSafe==3.0.3
@@ -29,9 +28,7 @@ nvidia-nvshmem-cu13==3.4.5
 nvidia-nvtx==13.0.85
 packaging==26.3
 pillow==12.3.0
-pluggy==1.6.0
 protobuf==7.36.0
-pytest==9.1.1
 sympy==1.14.0
 tensorboard==2.21.0
 tensorboard-data-server==0.7.2
