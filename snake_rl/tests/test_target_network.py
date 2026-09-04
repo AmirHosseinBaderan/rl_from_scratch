@@ -1,6 +1,6 @@
 import torch
 
-from agent import QNetwork
+from agent import QNetwork, TargetNetwork
 
 
 def test_target_network_has_same_architecture():
@@ -47,14 +47,12 @@ def test_target_network_is_independent_from_online_network():
         action_size=4,
     )
 
-    target_network = QNetwork(
+    target_network = TargetNetwork(
         state_size=12,
         action_size=4,
     )
 
-    target_network.load_state_dict(
-        online_network.state_dict()
-    )
+    target_network.copy_from(online_network)
 
     with torch.no_grad():
         for parameter in online_network.parameters():
@@ -62,9 +60,31 @@ def test_target_network_is_independent_from_online_network():
 
     for online_parameter, target_parameter in zip(
             online_network.parameters(),
-            target_network.parameters(),
+            target_network.network.parameters(),
     ):
         assert not torch.equal(
+            online_parameter,
+            target_parameter,
+        )
+
+def test_target_network_can_copy_from_online_network():
+    online_network = QNetwork(
+        state_size=12,
+        action_size=4,
+    )
+
+    target_network = TargetNetwork(
+        state_size=12,
+        action_size=4,
+    )
+
+    target_network.copy_from(online_network)
+
+    for online_parameter, target_parameter in zip(
+            online_network.parameters(),
+            target_network.network.parameters(),
+    ):
+        assert torch.equal(
             online_parameter,
             target_parameter,
         )

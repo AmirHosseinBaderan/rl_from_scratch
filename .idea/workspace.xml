@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8bb41578-b8c3-41cc-9c53-ac12f1a6b574" name="Changes" comment="" />
+    <list default="true" id="8bb41578-b8c3-41cc-9c53-ac12f1a6b574" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/snake_rl/agent/target_network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/snake_rl/agent/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/snake_rl/agent/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/snake_rl/tests/test_target_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/snake_rl/tests/test_target_network.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,6 +51,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "ai.playground.ignore.import.keys.banner.in.settings": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "copilot.chat.legacySessionMetadata.migrated": "true",
     "git-widget-placeholder": "drone__rl",
@@ -67,6 +73,8 @@
       <recent name="$PROJECT_DIR$/project_01_q_learning/tests" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/snake_rl" />
+      <recent name="$PROJECT_DIR$/snake_rl/training" />
       <recent name="$PROJECT_DIR$/project_01_q_learning" />
       <recent name="$PROJECT_DIR$/project_01_q_learning/training" />
     </key>
@@ -91,6 +99,7 @@
       <workItem from="1787307133326" duration="3802000" />
       <workItem from="1787318462589" duration="5173000" />
       <workItem from="1787516552327" duration="1886000" />
+      <workItem from="1788121540555" duration="27771000" />
     </task>
     <servers />
   </component>
